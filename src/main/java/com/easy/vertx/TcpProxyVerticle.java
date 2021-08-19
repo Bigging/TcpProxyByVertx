@@ -46,9 +46,9 @@ public class TcpProxyVerticle extends AbstractVerticle {
             NetSocket result = res.result();
             Pump.pump(netSocket, result).start();
             Pump.pump(result, netSocket).start();
-            result.closeHandler(event -> log.info("netSocket is closed!"));
+            result.closeHandler(event -> log.info("result is closed!"));
           } else {
-            log.info("Failed to connect: " + res.cause().getMessage());
+            log.error("Failed to connect: " + res.cause().getMessage());
           }
         });
         netSocket.closeHandler(event -> log.info("netSocket is closed!"));
@@ -58,7 +58,7 @@ public class TcpProxyVerticle extends AbstractVerticle {
         if (res.succeeded()) {
           log.info("代理服务器启动,开放端口: " + res.result().actualPort());
         } else {
-          log.info("Failed to start: " + res.cause().getMessage());
+          log.error("Failed to start: " + res.cause().getMessage());
         }
       });
   }
